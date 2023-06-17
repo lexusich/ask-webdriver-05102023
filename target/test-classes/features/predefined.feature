@@ -57,10 +57,10 @@ Scenario: Search Engine for  http://gibiru.com
       Given I open url "https://www.searchencrypt.com"
       Then I should see page title contains "Search Encrypt | Home"
       Then element with xpath "//input[@name='q']" should be present
-      Then I type "apple" into element with xpath "//input[@name='q']"
+      Then I type "cat" into element with xpath "//input[@name='q']"
       And I click on element with xpath "//button[@type='submit']"
       Then I wait for element with xpath "//input[@name='q']" to be present
-      Then element with xpath "//section[@class='serp__results container']" should contain text "apple"
+      Then element with xpath "//section[@class='serp__results container']" should contain text "cat"
 
       #Scenario: for https://www.startpage.com
     #predefined6
@@ -92,18 +92,33 @@ Scenario: Search Engine for  http://gibiru.com
           Then element with xpath "//input[@name='q']" should be present
           Then I type "BMW" into element with xpath "//input[@name='q']"
           And I click on element with xpath "//input[@name='btnG']"
+          Then I wait for 2 sec
+          Then I should see page title contains "Form is not secure"
           And I click on element with xpath "//button[@id='proceed-button']"
-          Then I wait for element with xpath "//input[@name='q']" to be present
-          Then element with xpath "//div[@id='inner-sbox']" should contain text "BMW"
+          Then I should see page title contains "Wiki.com"
+          Then I switch to iframe with xpath "//iframe[@name='googleSearchFrame']"
+          Then element with xpath "//*[contains(text(),'BMW')]" should contain text "BMW"
 
           #Scenario: for https://www.givewater.com/
     @predefined9
     Scenario: Search Engine for https://www.givewater.com/
       Given I open url "https://www.givewater.com/"
-      Then I should see page title contains "Search the Web to Give Clean Water to Those in Need » giveWater Search Engine"
+      Then I should see page title contains "giveWater"
+      Then element with xpath "//div[@class='pum-content popmake-content']" should be present
+      Then I click on element with xpath "//button[@class='pum-close popmake-close']"
       Then element with xpath "//input[@id='site-search']" should be present
       Then I type "New York" into element with xpath "//input[@id='site-search']"
-      And I click on element with xpath "//button[@id='button-addon2']"
+      Then I click on element with xpath "//button[@id='button-addon2']"
+      Then I should see page title contains "GiveWater Web Search"
       Then I wait for element with xpath "//input[@id='site-search']" to be present
-      Then element with xpath "<string>" should contain text "<string>"
-  
+      Then element with xpath "//div[@class='layout__mainline']" should contain text "New York"
+
+      #Scenario: for the https://ekoru.org/
+    @predefined10
+    Scenario: Search Engine for  https://ekoru.org/
+      Given I open url "https://ekoru.org/"
+      Then I should see page title contains "Ekoru - every search cleans our oceans"
+      Then element with xpath "//input[@id='fld_q']" should be present
+      When I type "Dog" into element with xpath "//input[@id='fld_q']"
+      And I click on element with xpath "//div[@id='btn_search']"
+      Then element with xpath "//div[@id='serp_organic']/div[1]/div[@class='serp-result-web-text']" should contain text "Dog"
